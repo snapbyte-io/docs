@@ -90,7 +90,7 @@ Hệ thống cho phép khách hàng tối ưu hóa chi phí băng thông bằng 
 
 ## Kết luận: triển khai mô hình 3 mở rộng (3.5+) trước, sau này khi chúng ta có thể triển khai mô hình số 2 sau.
 
-### API Design
+### Pharse 1: API Design
 
 #### `GET /proxy?url=<signed_url>&hash=<file_hash_or_custom_key>`
 
@@ -136,8 +136,8 @@ Client --> API --> Cached ? --> YES --> Worker Proxy --> R2/GCS
 - API handle các request từ khách hàng. Kiểm tra xem file đã được cache hay chưa:
   1. Nếu đã được cache, thì tạo signed_url truy xuất trực tiếp file trên hạ tầng cache R2/GCS sau đó redirect request của client tới signed_url này.
   2. Trong trường hợp file chưa được cache:
-    a. Redirect request của client về signed_url ban đầu được khách hàng cung cấp. Giúp client tải ngay file mà không cần chờ đợi.
-    b. Chuyển yêu cầu qua hạ tầng thứ 2, chuyên về việc tải và cache file.
+     - Redirect request của client về signed_url ban đầu được khách hàng cung cấp. Giúp client tải ngay file mà không cần chờ đợi.
+     - Chuyển yêu cầu qua hạ tầng thứ 2, chuyên về việc tải và cache file.
 
 ** Cloudflare Worker Proxy **
 - Worker đóng vai trò là trung qian giữa client và R2/GCS:
@@ -152,9 +152,21 @@ Client --> API --> Cached ? --> YES --> Worker Proxy --> R2/GCS
 
 ---
 
-## Mở rộng
+## Pharse 2: Dashboard & Website
 
-* Hệ thống dashboard thống kê usage/cache hit/miss, quản lý files....
+* Hệ thống dashboard thống kê usage/cache hit/miss/storage usage/bandwidth, quản lý files, thanh toán.
+* Admin dashboard để quản lý hệ thống: người dùng, usage/cache hit/miss/storage usage/bandwidth/system status ...
+* Main website để giới thiệu về Snapbyte
+
+---
+
+## Pharse 3: Tìm kiếm khách hàng
+
+* :D
+
+## Pharse 4: Mâng cấp, tối ưu thuật toán cache
+
 * Hệ thống whitelist IP / signed token bảo vệ proxy URL
 * Tự động preload theo lịch hoặc API webhook
 * Cung cấp tuỳ chọn sử dụng Domain riêng cho khách hàng.
+* Nâng cấp thuật toán cache, chỉ cache file có tần suất sử dụng cao, tối ưu chi phí.
