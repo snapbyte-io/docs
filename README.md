@@ -149,8 +149,16 @@ Client --> API --> Cached ? --> YES --> Worker Proxy --> R2/GCS
 ---
 ## Flowchart
 ![alt text](image.png)
-
 ---
+
+### System Requirement
+0. Database: Postgres
+1. API: 
+- API, đặc biệt là GET phải có độ trễ cực thấp < 50-70 ms.
+- Có trể triển khai đa luồng, đa server. Toàn hệ thống phải xử lý được tải cao, ít nhất 500-1k req/s
+
+2. Caching System.
+- TBD
 
 ## Pharse 2: Dashboard & Website
 
