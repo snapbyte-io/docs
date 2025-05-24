@@ -90,25 +90,33 @@ Hệ thống cho phép khách hàng tối ưu hóa chi phí băng thông bằng 
 
 ## Kết luận: triển khai mô hình 3 mở rộng (3.5+) trước, sau này khi chúng ta có thể triển khai mô hình số 2 sau.
 
-### Pharse 1: API Design
+## Pharse 1: API Design
 
-#### `GET /proxy?url=<signed_url>&hash=<file_hash_or_custom_key>`
+### Private APIs
+#### Authentication: API KEY
 
-* Kiểm tra cache status của file để đưa ra quyết định:
-  * Nếu file chưa được cache: Lưu file vào R2/GCS, sau đó redirect về lại signed_url gốc
-  * Nếu file đã được cache: Redirect về signed_url do chúng ta cung cấp để chuyển hướng băng thông về hạ tầng của chúng ta.
+#### `POST /cache/<file_hash_or_custom_key>`
+- Khách hàng gọi API này để cache file vào hệ thống của snapbyte
 
-#### `POST /preload`
-
+Request Body:
 ```json
 {
   "url": "https://storage.googleapis.com/bucket/video.mp4",
-  "hash": "file_hash_or_custom_key",
   "expires_at": "2025-05-21T10:00:00Z"
 }
 ```
 
-* Dùng để preload file vào R2/GCS, không cần chờ request từ người dùng
+#### `GET /cache/<file_hash_or_custom_key>`
+- Khách hàng gọi API này để lấy signed_url tới file đã được cache.
+- Nếu chưa được cache trả 404
+
+Return Body:
+```json
+{
+  "url": "https://storage.googleapis.com/bucket/video.mp4",
+  "expires_at": "2025-05-21T10:00:00Z"
+}
+```
 
 #### `DELETE /cache/<file_hash_or_custom_key>`
 
@@ -116,10 +124,24 @@ Hệ thống cho phép khách hàng tối ưu hóa chi phí băng thông bằng 
 
 ### Cách tạo cache key
 
-* Ưu tiên: `file_hash_or_custom_key` do người dùng cung cấp
-* Nếu không có:
-  * Hash URL
-  * Hoặc kết hợp `ETag` hoặc checksum từ response gốc
+* Ưu tiên: `file_hash_or_custom_key` do người dùng cung cấp, nên là md5 của file.
+
+### Public APIs
+- Các private apis trên yêu cầu 2 bước, kèo với API key thì khách hàng mới có thể tích hợp và sử dụng snapbyte, đối với các khách hàng yếu về công nghệ, cần có một phương án thay thế để có thể sử dụng ngay lập tức.
+- Cần có phương thức để xác định danh tính của khách hàng khi gọi API này, có thể là domain ....
+#### Authentication: NONE
+
+#### `GET /snap?signed_url=url&hash=<file_hash_or_custom_key>`
+- Khách hàng gọi API này để lấy signed_url tới file đã được cache.
+- Nếu chưa được cache thì cache file lại.
+
+Return Body:
+```json
+{
+  "url": "https://storage.googleapis.com/bucket/video.mp4",
+  "expires_at": "2025-05-21T10:00:00Z"
+}
+```
 
 ---
 
