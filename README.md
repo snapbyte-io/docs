@@ -184,9 +184,61 @@ Client --> API --> Cached ? --> YES --> Worker Proxy --> R2/GCS
 
 ## Pharse 2: Dashboard & Website
 
-* Hệ thống dashboard thống kê usage/cache hit/miss/storage usage/bandwidth, quản lý files, thanh toán.
-* Admin dashboard để quản lý hệ thống: người dùng, usage/cache hit/miss/storage usage/bandwidth/system status ...
-* Main website để giới thiệu về Snapbyte
+1. Hệ thống dashboard thống kê usage/cache hit/miss/storage usage/bandwidth, quản lý files, thanh toán.
+Giao diện Website Quản Lý Cache
+
+1. Trang chủ (Dashboard): Chủ yếu hiển thị số liệu:
+
+- Tổng số file đang cache, tổng size đã cache (GB/TB..)
+
+- Tổng băng thông đã sử dụng (theo ngày/tháng)
+
+- Tỷ lệ cache hit/miss
+
+- Biểu đồ hoạt động gần đây: Tải lên bao nhiêu, tải xuống bao nhiêu.
+
+- Tổng số băng thông đã tiết kiệm cho khách hàng.
+
+<img width="1510" alt="image" src="https://github.com/user-attachments/assets/66a6f23f-49f1-4572-b7db-5c009d9ab5a0" />
+
+2. Quản lý files (File Manager)
+
+- Danh sách file đã cache
+
+- Tìm kiếm theo URL, cache key, khách hàng
+
+- Thao tác: Xem chi tiết, tải về, xoá cache, preload lại
+
+- Bộ lọc: theo ngày, theo dung lượng, theo trạng thái
+
+<img width="1510" alt="image" src="https://github.com/user-attachments/assets/34a046fc-67a7-4822-ba4c-275915166c24" />
+
+
+3. Trang cá nhân (Profile)
+
+- Thông tin tài khoản
+
+- Đổi mật khẩu
+
+- Tạo / quản lý API key
+
+- Quản lý token truy cập / logout khỏi thiết bị khác
+
+4. Trang thanh toán (Payment)
+
+- Thêm phương thức thanh toán (credit card, Stripe...)
+
+- Xem lịch sử hoá đơn (invoice PDF, trạng thái thanh toán)
+
+- Gói cước đang sử dụng, hạn mức
+
+- Nâng cấp gói cước / huỷ đăng ký
+
+2. Admin dashboard để quản lý hệ thống: người dùng, usage/cache hit/miss/storage usage/bandwidth/system status ...
+- Thiết kế tuỳ ý, chỉ cần đáp ứng được các chức năng cơ bản để quản lý người dùng, xem số liệu thống kê
+
+4. Main website để giới thiệu về Snapbyte
+- Tập trung tối đa và tính năng tiết kiệm băng thông của snapbyte qua cơ chế cache dữ liệu.
 
 ---
 
